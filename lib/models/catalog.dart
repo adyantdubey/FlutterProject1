@@ -1,7 +1,17 @@
-import 'dart:ffi';
+class CatalogModel {
+  static final items = [
+    Item(
+        id: 1,
+        Pname: "IPHONE",
+        price: 433201,
+        desc: "its an iphone 15",
+        image: "../assets/images/pfp.jpeg",
+        color: "black")
+  ];
+}
 
 class Item {
-  final String id;
+  final int id;
   final String Pname;
   final String desc;
   final int price;
@@ -16,13 +26,3 @@ class Item {
       required this.image,
       required this.color});
 }
-
-final products = [
-  Item(
-      id: '1101',
-      Pname: "IPHONE",
-      price: 433201,
-      desc: "its an iphone 15",
-      image: "https://google.com",
-      color: "black")
-];
