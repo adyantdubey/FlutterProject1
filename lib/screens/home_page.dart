@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import "dart:convert";
@@ -20,31 +18,37 @@ class _HomePageState extends State<HomePage> {
   }
 
   loaddata() async {
+    await Future.delayed(Duration(seconds: 2));
     final catalogjson =
         await rootBundle.loadString("assets/files/catalog.json");
     final decodedData = jsonDecode(catalogjson);
     var productsData = decodedData["products"];
-    print(productsData);
+    CatalogModel.items = List.from(productsData)
+        .map<Item>((item) => Item.fromMap(item))
+        .toList();
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    final dummyitem = List.generate(20, (index) => CatalogModel.items[0]);
-    int num = 1;
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text("Catalog App")),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: ListView.builder(
-          itemCount: dummyitem.length,
-          itemBuilder: (context, index) {
-            return ItemWidget(
-              item: dummyitem[index],
-            );
-          },
-        ),
+        child: (CatalogModel.items != null && CatalogModel.items.isNotEmpty)
+            ? ListView.builder(
+                itemCount: CatalogModel.items.length,
+                itemBuilder: (context, index) {
+                  return ItemWidget(
+                    item: CatalogModel.items[index],
+                  );
+                },
+              )
+            : Center(
+                child: CircularProgressIndicator(),
+              ),
       ),
       drawer: MyDrawer(),
     );
