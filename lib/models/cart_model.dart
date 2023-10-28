@@ -1,6 +1,11 @@
 import 'package:flutter_demo/models/catalog.dart';
 
 class CartModel {
+// creating a singleton
+  static final cartModel = CartModel._internal();
+  CartModel._internal();
+  factory CartModel() => cartModel;
+
   //catalog field
 
   late CatalogModel _catalog;
@@ -20,4 +25,14 @@ class CartModel {
   //Total price
   num get totalPrice =>
       items.fold(0, (total, current) => total + current.price);
+
+  // Add items
+  void add(Item item) {
+    _itemIds.add(item.id);
+  }
+
+  // remove items
+  void remove(Item item) {
+    _itemIds.remove(item.id);
+  }
 }
